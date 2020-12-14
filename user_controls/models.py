@@ -30,7 +30,6 @@ class CustomUserManager(BaseUserManager):
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(unique=True, max_length=100)
-    email = models.EmailField(unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     is_staff = models.BooleanField(default=False)
@@ -48,3 +47,10 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         ordering = ("created_at",)
 
 
+class Jwt(models.Model):
+    user = models.ForeignKey(
+        CustomUser,on_delete = models.CASCADE, related_name='login_user')
+    access = models.TextField()
+    refresh = models.TextField()
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
